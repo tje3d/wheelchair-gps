@@ -18,7 +18,7 @@ export default Vue.extend({
       zoom: 17,
       center: latLng(36.286514, 59.615716),
       markers: [],
-      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
       mapOptions: {
         zoomSnap: 0.0
       }
@@ -38,13 +38,13 @@ export default Vue.extend({
       console.warn(pos.coords);
 
       axios.get(
-        `http://localhost:3000/update?name=${this.$store.state.name}&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
+        `https://51.38.95.3:3000/update?name=${this.$store.state.name}&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
       );
     },
 
     update() {
       axios
-        .get("http://localhost:3000/")
+        .get("https://51.38.95.3:3000/")
         .then(res => {
           this.markers = res.data;
           this.updateTimeout = setTimeout(() => this.update(), 1000);

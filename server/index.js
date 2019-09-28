@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 const fs = require('fs');
+const https = require('https');
+const cors = require('cors');
+
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.json(getCurrentData());
@@ -28,9 +31,17 @@ app.get('/update', (req, res) => {
   res.send('');
 });
 
-app.listen(port, '0.0.0.0', () =>
-  console.log(`Example app listening on port ${port}!`),
-);
+https
+  .createServer(
+    {
+      key: fs.readFileSync('../key.pem'),
+      cert: fs.readFileSync('../cert.pem'),
+    },
+    app,
+  )
+  .listen(3000);
+
+console.log('Server started: https://localhost:8080');
 
 const getCurrentData = () => {
   const data = fs.readFileSync('./data.json');
